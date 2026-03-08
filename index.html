@@ -163,6 +163,19 @@
       line-height: 1.6;
     }
 
+    .location-box {
+      margin-top: 20px;
+      padding: 18px;
+      border-radius: 14px;
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.06);
+    }
+
+    .location-box p {
+      margin: 8px 0;
+      color: #e2e8f0;
+    }
+
     footer {
       text-align: center;
       color: #94a3b8;
@@ -221,6 +234,19 @@
       <div class="actions">
         <button onclick="whats()">Falar no WhatsApp</button>
         <a class="btn-link btn-outline" href="#detalhes">Ver detalhes</a>
+        <button onclick="pedirLocalizacaoExata()">Compartilhar localização</button>
+      </div>
+
+      <div class="location-box">
+        <p><strong>Cidade aproximada:</strong> <span id="cidadeAprox">Carregando...</span></p>
+        <p><strong>Estado:</strong> <span id="estadoAprox">-</span></p>
+        <p><strong>País:</strong> <span id="paisAprox">-</span></p>
+        <p><strong>Latitude aproximada:</strong> <span id="latAprox">-</span></p>
+        <p><strong>Longitude aproximada:</strong> <span id="lngAprox">-</span></p>
+        <hr style="border-color: rgba(255,255,255,.08); margin: 14px 0;">
+        <p><strong>Latitude exata:</strong> <span id="latExata">Aguardando permissão</span></p>
+        <p><strong>Longitude exata:</strong> <span id="lngExata">Aguardando permissão</span></p>
+        <p><strong>Precisão:</strong> <span id="precisaoExata">-</span></p>
       </div>
     </div>
 
@@ -238,7 +264,7 @@
   </div>
 
   <div class="privacy">
-    Este site registra dados técnicos de acesso para controle de visitas e segurança, como IP aproximado, navegador, idioma, resolução da tela, origem do acesso e tempo de permanência.
+    Esta página pode mostrar localidade aproximada por IP. A localização exata só é compartilhada quando o visitante autoriza no navegador.
   </div>
 </div>
 
@@ -322,16 +348,56 @@
     }
   }
 
-  function pedirLocalizacaoExata() {
-    if (!navigator.geolocation) return;
+  function preencherGeoAproximada(geo) {
+    document.getElementById("cidadeAprox").textContent = geo.cidade || "-";
+    document.getElementById("estadoAprox").textContent = geo.estado || "-";
+    document.getElementById("paisAprox").textContent = geo.pais || "-";
+    document.getElementById("latAprox").textContent = geo.latitudeAprox ?? "-";
+    document.getElementById("lngAprox").textContent = geo.longitudeAprox ?? "-";
+  }
 
-    navigator.geolocation.getCurrentPosition(function(pos) {
-      localizacaoExata = {
-        latitude: pos.coords.latitude,
-        longitude: pos.coords.longitude,
-        precisao: pos.coords.accuracy
-      };
-    });
+  function preencherGeoExata(local) {
+    document.getElementById("latExata").textContent = local.latitude ?? "-";
+    document.getElementById("lngExata").textContent = local.longitude ?? "-";
+    document.getElementById("precisaoExata").textContent = local.precisao ? `${Math.round(local.precisao)} metros` : "-";
+  }
+
+  function pedirLocalizacaoExata() {
+    if (!navigator.geolocation) {
+      alert("Geolocalização não suportada neste dispositivo.");
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      async function(pos) {
+        const lat = pos.coords.latitude;
+        const lng = pos.coords.longitude;
+
+        localizacaoExata = {
+          latitude: lat,
+          longitude: lng,
+          precisao: pos.coords.accuracy
+        };
+
+        preencherGeoExata(localizacaoExata);
+
+        console.log("LOCALIZACAO_EXATA", {
+          latitude: lat,
+          longitude: lng
+        });
+
+        await enviarLog("localizacao_exata_autorizada");
+      },
+      function(erro) {
+        console.error("Permissão negada ou erro ao obter localização.", erro);
+        alert("A localização exata não foi compartilhada.");
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 0
+      }
+    );
   }
 
   function montarPayload(evento) {
@@ -384,6 +450,8 @@
   async function iniciarCaptura() {
     dadosGeoCache = await obterGeoIP();
 
+    preencherGeoAproximada(dadosGeoCache);
+
     console.log("GeoIP:", dadosGeoCache);
     console.log("Navegador:", obterDadosNavegador());
 
@@ -406,9 +474,6 @@
   });
 
   iniciarCaptura();
-
-  // Só use se quiser tentar pedir localização exata do usuário
-  // pedirLocalizacaoExata();
 </script>
 
 </body>
