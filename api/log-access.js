@@ -9,34 +9,107 @@ export default async function handler(req, res) {
   try {
     const body = req.body || {};
 
-    const ipHeader =
+    const rawIp =
+      req.headers["x-vercel-forwarded-for"] ||
       req.headers["x-forwarded-for"] ||
       req.headers["x-real-ip"] ||
       req.socket?.remoteAddress ||
       "";
 
-    const ipReal = Array.isArray(ipHeader)
-      ? ipHeader[0]
-      : String(ipHeader).split(",")[0].trim();
+    const ipReal = Array.isArray(rawIp)
+      ? rawIp[0]
+      : String(rawIp).split(",")[0].trim();
 
-    let geoBackend = {};
+    function ipValido(ip) {
+      if (!ip) return false;
 
-    try {
-      const geoResp = await fetch(`https://ipapi.co/${ipReal}/json/`);
-      const geoData = await geoResp.json();
+      const invalidos = ["::1", "127.0.0.1", "localhost", "unknown"];
+      if (invalidos.includes(String(ip).toLowerCase())) return false;
 
-      geoBackend = {
-        cidade: geoData.city || "",
-        estado: geoData.region || "",
-        pais: geoData.country_name || "",
-        siglaPais: geoData.country || "",
-        latitudeAprox: geoData.latitude || null,
-        longitudeAprox: geoData.longitude || null,
-        org: geoData.org || "",
-        ipPublicoCliente: geoData.ip || ipReal || ""
-      };
-    } catch (geoError) {
-      geoBackend = {
+      return true;
+    }
+
+    async function fetchComTimeout(url, ms = 5000) {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), ms);
+
+      try {
+        const response = await fetch(url, {
+          signal: controller.signal,
+          headers: {
+            "User-Agent": "creta-platinum-vercel-logger/1.0"
+          }
+        });
+        return response;
+      } finally {
+        clearTimeout(timeout);
+      }
+    }
+
+    async function buscarGeoPorIp(ip) {
+      if (!ipValido(ip)) {
+        return {
+          cidade: "",
+          estado: "",
+          pais: "",
+          siglaPais: "",
+          latitudeAprox: null,
+          longitudeAprox: null,
+          org: "",
+          ipPublicoCliente: ip || "",
+          fonteGeo: "ip_invalido"
+        };
+      }
+
+      // 1) ipapi.co
+      try {
+        const resp = await fetchComTimeout(`https://ipapi.co/${ip}/json/`, 5000);
+        const data = await resp.json();
+
+        if (
+          data &&
+          !data.error &&
+          (data.city || data.region || data.country_name || data.latitude || data.longitude)
+        ) {
+          return {
+            cidade: data.city || "",
+            estado: data.region || "",
+            pais: data.country_name || "",
+            siglaPais: data.country || "",
+            latitudeAprox: data.latitude || null,
+            longitudeAprox: data.longitude || null,
+            org: data.org || "",
+            ipPublicoCliente: data.ip || ip,
+            fonteGeo: "ipapi"
+          };
+        }
+      } catch (e) {
+        console.error("FALHA_IPAPI", e?.message || e);
+      }
+
+      // 2) ipwho.is
+      try {
+        const resp = await fetchComTimeout(`https://ipwho.is/${ip}`, 5000);
+        const data = await resp.json();
+
+        if (data && data.success) {
+          return {
+            cidade: data.city || "",
+            estado: data.region || "",
+            pais: data.country || "",
+            siglaPais: data.country_code || "",
+            latitudeAprox: data.latitude || null,
+            longitudeAprox: data.longitude || null,
+            org: data.connection?.org || data.connection?.isp || "",
+            ipPublicoCliente: data.ip || ip,
+            fonteGeo: "ipwhois"
+          };
+        }
+      } catch (e) {
+        console.error("FALHA_IPWHOIS", e?.message || e);
+      }
+
+      return {
         cidade: "",
         estado: "",
         pais: "",
@@ -44,9 +117,12 @@ export default async function handler(req, res) {
         latitudeAprox: null,
         longitudeAprox: null,
         org: "",
-        ipPublicoCliente: ipReal || ""
+        ipPublicoCliente: ip || "",
+        fonteGeo: "sem_retorno"
       };
     }
+
+    const geoBackend = await buscarGeoPorIp(ipReal);
 
     const geoFinal = {
       cidade: body.geoip?.cidade || geoBackend.cidade || "",
@@ -56,7 +132,9 @@ export default async function handler(req, res) {
       latitudeAprox: body.geoip?.latitudeAprox || geoBackend.latitudeAprox || null,
       longitudeAprox: body.geoip?.longitudeAprox || geoBackend.longitudeAprox || null,
       org: body.geoip?.org || geoBackend.org || "",
-      ipPublicoCliente: body.geoip?.ip_publico_cliente || geoBackend.ipPublicoCliente || ipReal || ""
+      ipPublicoCliente:
+        body.geoip?.ip_publico_cliente || geoBackend.ipPublicoCliente || ipReal || "",
+      fonteGeo: geoBackend.fonteGeo || ""
     };
 
     const geolocalizacaoExata = {
@@ -66,6 +144,9 @@ export default async function handler(req, res) {
     };
 
     const navegador = body.navegador || {};
+    const permanenciaMs = Number(body.permanenciaMs || 0);
+    const userAgent = String(navegador.userAgent || "").toLowerCase();
+    const tipoDispositivo = navegador.tipoDispositivo || "";
 
     const mapaAproximado =
       geoFinal.latitudeAprox && geoFinal.longitudeAprox
@@ -78,10 +159,6 @@ export default async function handler(req, res) {
         : "";
 
     let classificacao = "inconclusivo";
-
-    const permanenciaMs = Number(body.permanenciaMs || 0);
-    const userAgent = String(navegador.userAgent || "").toLowerCase();
-    const tipoDispositivo = navegador.tipoDispositivo || "";
 
     if (
       userAgent.includes("bot") ||
@@ -153,11 +230,13 @@ export default async function handler(req, res) {
     return res.status(200).json({
       ok: true,
       classificacao,
+      ip: ipReal,
       cidade: registro.geoip.cidade,
       estado: registro.geoip.estado,
       pais: registro.geoip.pais,
       latitudeAprox: registro.geoip.latitudeAprox,
       longitudeAprox: registro.geoip.longitudeAprox,
+      fonteGeo: registro.geoip.fonteGeo,
       mapaAproximado,
       mapaExato
     });
