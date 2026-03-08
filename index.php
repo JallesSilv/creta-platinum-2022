@@ -439,29 +439,7 @@
       document.getElementById("lightbox").classList.remove("active");
     }
 
-    async function pegarDados() {
-      try {
-        const geo = await fetch("https://ipapi.co/json/");
-        const dados = await geo.json();
-
-        const acesso = {
-          cidade: dados.city || "",
-          estado: dados.region || "",
-          pais: dados.country_name || "",
-          ip: dados.ip || "",
-          navegador: navigator.userAgent,
-          idioma: navigator.language,
-          resolucao: screen.width + "x" + screen.height,
-          data: new Date().toISOString()
-        };
-
-        console.log("Visitante:", acesso);
-        localStorage.setItem("ultimoAcessoCreta", JSON.stringify(acesso));
-      } catch (erro) {
-        console.log("Não foi possível obter os dados do visitante.", erro);
-      }
-    }
-
+  
     pegarDados();
   </script>
 </body>
