@@ -3,67 +3,184 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Creta Platinum 2022 à venda</title>
+  <title>Hyundai Creta Platinum 2022 à venda</title>
+
   <style>
-    body{
-      font-family:Arial;
-      margin:0;
-      background:#0f172a;
-      color:white;
+    * {
+      box-sizing: border-box;
     }
 
-    header{
-      padding:40px;
-      text-align:center;
-      background:#020617;
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #0f172a;
+      color: #fff;
     }
 
-    h1{
-      font-size:42px;
-      margin-bottom:10px;
+    header {
+      padding: 48px 20px;
+      text-align: center;
+      background: linear-gradient(135deg, #020617, #0f172a);
+      border-bottom: 1px solid rgba(255,255,255,.08);
     }
 
-    .banner{
-      width:100%;
-      max-height:600px;
-      object-fit:cover;
+    h1 {
+      font-size: 42px;
+      margin: 0 0 10px;
     }
 
-    .container{
-      max-width:1200px;
-      margin:auto;
-      padding:30px;
+    .subtitle {
+      font-size: 18px;
+      color: #cbd5e1;
+      margin: 0;
     }
 
-    .grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
-      gap:20px;
+    .hero {
+      width: 100%;
+      max-height: 620px;
+      object-fit: cover;
+      display: block;
     }
 
-    .grid img{
-      width:100%;
-      border-radius:10px;
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 30px 20px 50px;
     }
 
-    .info{
-      margin-top:30px;
-      padding:25px;
-      background:#1e293b;
-      border-radius:10px;
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin-top: 24px;
     }
 
-    button{
-      background:#22c55e;
-      border:none;
-      padding:18px 30px;
-      font-size:18px;
-      border-radius:8px;
-      cursor:pointer;
+    .grid img {
+      width: 100%;
+      height: 260px;
+      object-fit: cover;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.08);
+      box-shadow: 0 10px 25px rgba(0,0,0,.2);
     }
 
-    button:hover{
-      background:#16a34a;
+    .info-wrap {
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 20px;
+      margin-top: 30px;
+    }
+
+    .card {
+      background: #1e293b;
+      padding: 25px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,.08);
+    }
+
+    .card h2 {
+      margin-top: 0;
+      margin-bottom: 18px;
+      font-size: 24px;
+    }
+
+    .list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px 18px;
+    }
+
+    .item {
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.06);
+      border-radius: 12px;
+      padding: 12px 14px;
+    }
+
+    .item span {
+      display: block;
+      font-size: 13px;
+      color: #94a3b8;
+      margin-bottom: 4px;
+    }
+
+    .item strong {
+      font-size: 16px;
+      color: #fff;
+    }
+
+    .highlights ul {
+      margin: 0;
+      padding-left: 20px;
+      line-height: 1.8;
+      color: #e2e8f0;
+    }
+
+    .actions {
+      margin-top: 24px;
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    button, .btn-link {
+      background: #22c55e;
+      border: none;
+      padding: 16px 24px;
+      font-size: 17px;
+      border-radius: 12px;
+      cursor: pointer;
+      color: #04120a;
+      font-weight: bold;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    button:hover, .btn-link:hover {
+      background: #16a34a;
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: #fff;
+      border: 1px solid rgba(255,255,255,.16);
+    }
+
+    .btn-outline:hover {
+      background: rgba(255,255,255,.06);
+    }
+
+    .privacy {
+      margin-top: 30px;
+      font-size: 14px;
+      color: #cbd5e1;
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.06);
+      padding: 16px;
+      border-radius: 12px;
+      line-height: 1.6;
+    }
+
+    footer {
+      text-align: center;
+      color: #94a3b8;
+      padding: 30px 20px 40px;
+    }
+
+    @media (max-width: 900px) {
+      .info-wrap {
+        grid-template-columns: 1fr;
+      }
+
+      .list {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: 34px;
+      }
     }
   </style>
 </head>
@@ -71,78 +188,227 @@
 
 <header>
   <h1>Hyundai Creta Platinum 2022</h1>
-  <p>Único dono • 45.000 km • Automático</p>
+  <p class="subtitle">Único dono • 45.000 km • Automático • SUV completo</p>
 </header>
 
-<img class="banner"
-src="https://image.webmotors.com.br/_fotos/anunciousados/gigante/2026/202602/20260221/hyundaicreta10tgdiflexplatinumautomatico-wmimagem1826201327.jpg?s=fill&w=1920&h=1440&q=75">
+<img
+  class="hero"
+  src="https://image.webmotors.com.br/_fotos/anunciousados/gigante/2026/202602/20260221/hyundaicreta10tgdiflexplatinumautomatico-wmimagem1826201327.jpg?s=fill&w=1920&h=1440&q=75"
+  alt="Hyundai Creta Platinum"
+/>
 
 <div class="container">
+
   <div class="grid">
-    <img src="https://image.webmotors.com.br/_fotos/anunciousados/gigante/2026/202602/20260221/hyundaicreta10tgdiflexplatinumautomatico-wmimagem18262191060.jpg?s=fill&w=1920&h=1440&q=75">
-    <img src="https://image.webmotors.com.br/_fotos/anunciousados/gigante/2026/202602/20260221/hyundaicreta10tgdiflexplatinumautomatico-wmimagem18262191160.jpg?s=fill&w=1920&h=1440&q=75">
-    <img src="https://image.webmotors.com.br/_fotos/anunciousados/gigante/2026/202602/20260221/hyundaicreta10tgdiflexplatinumautomatico-wmimagem18301713978.jpg?s=fill&w=1920&h=1440&q=75">
+    <img src="https://image.webmotors.com.br/_fotos/anunciousados/gigante/2026/202602/20260221/hyundaicreta10tgdiflexplatinumautomatico-wmimagem18262191060.jpg?s=fill&w=1920&h=1440&q=75" alt="Foto 2">
+    <img src="https://image.webmotors.com.br/_fotos/anunciousados/gigante/2026/202602/20260221/hyundaicreta10tgdiflexplatinumautomatico-wmimagem18262191160.jpg?s=fill&w=1920&h=1440&q=75" alt="Foto 3">
+    <img src="https://image.webmotors.com.br/_fotos/anunciousados/gigante/2026/202602/20260221/hyundaicreta10tgdiflexplatinumautomatico-wmimagem18301713978.jpg?s=fill&w=1920&h=1440&q=75" alt="Foto 4">
   </div>
 
-  <div class="info">
-    <h2>Informações do veículo</h2>
-    <p><b>Modelo:</b> Creta Platinum</p>
-    <p><b>Ano:</b> 2022/2022</p>
-    <p><b>KM:</b> 45.000</p>
-    <p><b>Motor:</b> 1.0 Turbo</p>
-    <p><b>Proprietário:</b> Único dono</p>
+  <div class="info-wrap">
+    <div class="card">
+      <h2>Informações do veículo</h2>
 
-    <button onclick="whats()">Falar no WhatsApp</button>
+      <div class="list">
+        <div class="item"><span>Modelo</span><strong>Creta Platinum</strong></div>
+        <div class="item"><span>Ano / Modelo</span><strong>2022 / 2022</strong></div>
+        <div class="item"><span>Quilometragem</span><strong>45.000 km</strong></div>
+        <div class="item"><span>Motor</span><strong>1.0 Turbo</strong></div>
+        <div class="item"><span>Câmbio</span><strong>Automático</strong></div>
+        <div class="item"><span>Proprietário</span><strong>Único dono</strong></div>
+      </div>
+
+      <div class="actions">
+        <button onclick="whats()">Falar no WhatsApp</button>
+        <a class="btn-link btn-outline" href="#detalhes">Ver detalhes</a>
+      </div>
+    </div>
+
+    <div class="card highlights" id="detalhes">
+      <h2>Destaques</h2>
+      <ul>
+        <li>Versão Platinum completa</li>
+        <li>Painel digital</li>
+        <li>Central multimídia</li>
+        <li>Bancos em couro</li>
+        <li>Excelente estado de conservação</li>
+        <li>Contato direto pelo WhatsApp</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="privacy">
+    Este site registra dados técnicos de acesso para controle de visitas e segurança, como IP aproximado, navegador, idioma, resolução da tela, origem do acesso e tempo de permanência.
   </div>
 </div>
 
+<footer>
+  Hyundai Creta Platinum 2022 • Página de anúncio
+</footer>
+
 <script>
-function whats(){
-  window.open(
-    "https://wa.me/5562992447544?text=Tenho%20interesse%20no%20Creta",
-    "_blank"
-  );
-}
+  const PAGE_SESSION_ID = gerarSessionId();
+  const PAGE_OPEN_TIME = Date.now();
+  let dadosGeoCache = {};
+  let localizacaoExata = null;
 
-async function pegarDados(){
-  let dadosGeo = {};
+  function gerarSessionId() {
+    const existente = sessionStorage.getItem("creta_session_id");
+    if (existente) return existente;
 
-  try {
-    const geo = await fetch("https://ipapi.co/json/");
-    dadosGeo = await geo.json();
-  } catch (e) {
-    dadosGeo = {};
+    const novo = "sess_" + Date.now() + "_" + Math.random().toString(36).slice(2, 10);
+    sessionStorage.setItem("creta_session_id", novo);
+    return novo;
   }
 
-  const acesso = {
-    cidade: dadosGeo.city || "",
-    estado: dadosGeo.region || "",
-    pais: dadosGeo.country_name || "",
-    ip_publico_cliente: dadosGeo.ip || "",
-    navegador: navigator.userAgent,
-    idioma: navigator.language,
-    resolucao: screen.width + "x" + screen.height,
-    url: window.location.href,
-    referrer: document.referrer || "",
-    data_cliente: new Date().toISOString()
-  };
+  function obterUTMs() {
+    const p = new URLSearchParams(window.location.search);
+    return {
+      utm_source: p.get("utm_source") || "",
+      utm_medium: p.get("utm_medium") || "",
+      utm_campaign: p.get("utm_campaign") || "",
+      utm_term: p.get("utm_term") || "",
+      utm_content: p.get("utm_content") || ""
+    };
+  }
 
-  console.log("Visitante:", acesso);
+  function tipoDispositivo() {
+    const ua = navigator.userAgent || "";
+    if (/tablet|ipad/i.test(ua)) return "tablet";
+    if (/mobi|android|iphone/i.test(ua)) return "mobile";
+    return "desktop";
+  }
 
-  try {
-    await fetch("/api/log-access", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(acesso)
+  function obterDadosNavegador() {
+    return {
+      userAgent: navigator.userAgent || "",
+      idioma: navigator.language || "",
+      idiomas: navigator.languages || [],
+      plataforma: navigator.platform || "",
+      cookieHabilitado: navigator.cookieEnabled,
+      online: navigator.onLine,
+      touchPoints: navigator.maxTouchPoints || 0,
+      coresCpu: navigator.hardwareConcurrency || null,
+      memoriaGB: navigator.deviceMemory || null,
+      larguraTela: window.screen.width || null,
+      alturaTela: window.screen.height || null,
+      resolucao: (window.screen.width || 0) + "x" + (window.screen.height || 0),
+      viewport: window.innerWidth + "x" + window.innerHeight,
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || "",
+      timezoneOffset: new Date().getTimezoneOffset(),
+      tipoDispositivo: tipoDispositivo()
+    };
+  }
+
+  async function obterGeoIP() {
+    try {
+      const geo = await fetch("https://ipapi.co/json/");
+      const dados = await geo.json();
+
+      return {
+        cidade: dados.city || "",
+        estado: dados.region || "",
+        pais: dados.country_name || "",
+        siglaPais: dados.country || "",
+        regiao: dados.region_code || "",
+        cep: dados.postal || "",
+        latitudeAprox: dados.latitude || null,
+        longitudeAprox: dados.longitude || null,
+        org: dados.org || "",
+        ip_publico_cliente: dados.ip || ""
+      };
+    } catch (e) {
+      return {};
+    }
+  }
+
+  function pedirLocalizacaoExata() {
+    if (!navigator.geolocation) return;
+
+    navigator.geolocation.getCurrentPosition(function(pos) {
+      localizacaoExata = {
+        latitude: pos.coords.latitude,
+        longitude: pos.coords.longitude,
+        precisao: pos.coords.accuracy
+      };
     });
-  } catch (e) {
-    console.error("Falha ao enviar log:", e);
   }
-}
 
-pegarDados();
+  function montarPayload(evento) {
+    const naveg = obterDadosNavegador();
+    const utms = obterUTMs();
+    const permanenciaMs = Date.now() - PAGE_OPEN_TIME;
+
+    return {
+      evento,
+      sessionId: PAGE_SESSION_ID,
+      url: window.location.href,
+      path: window.location.pathname,
+      host: window.location.host,
+      titulo: document.title,
+      referrer: document.referrer || "",
+      dataClienteIso: new Date().toISOString(),
+      permanenciaMs,
+      visibilidadePagina: document.visibilityState,
+      geoip: dadosGeoCache,
+      geolocalizacaoExata: localizacaoExata,
+      navegador: naveg,
+      utm: utms
+    };
+  }
+
+  async function enviarLog(evento) {
+    const payload = montarPayload(evento);
+
+    try {
+      await fetch("/api/log-access", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload),
+        keepalive: true
+      });
+    } catch (e) {
+      console.error("Falha ao enviar log:", e);
+    }
+  }
+
+  async function whats() {
+    await enviarLog("clique_whatsapp");
+
+    const msg = "Tenho interesse no Creta Platinum 2022";
+    window.open("https://wa.me/5562992447544?text=" + encodeURIComponent(msg), "_blank");
+  }
+
+  async function iniciarCaptura() {
+    dadosGeoCache = await obterGeoIP();
+
+    console.log("GeoIP:", dadosGeoCache);
+    console.log("Navegador:", obterDadosNavegador());
+
+    await enviarLog("page_open");
+
+    setTimeout(() => enviarLog("tempo_10s"), 10000);
+    setTimeout(() => enviarLog("tempo_30s"), 30000);
+  }
+
+  document.addEventListener("visibilitychange", function() {
+    enviarLog("visibility_" + document.visibilityState);
+  });
+
+  window.addEventListener("beforeunload", function() {
+    const payload = JSON.stringify(montarPayload("page_close"));
+
+    try {
+      navigator.sendBeacon("/api/log-access", payload);
+    } catch (e) {}
+  });
+
+  iniciarCaptura();
+
+  // Só use se quiser tentar pedir localização exata do usuário
+  // pedirLocalizacaoExata();
 </script>
 
 </body>
